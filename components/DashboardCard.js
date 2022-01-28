@@ -51,8 +51,7 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
           </Text>
           <Heading
             color={useColorModeValue("primary.700", "white")}
-            fontSize={"1xl"}
-            fontFamily={"body"}
+            fontSize={"xs"}
             pb={1}
             textTransform={"uppercase"}
           >

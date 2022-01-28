@@ -47,7 +47,7 @@ const DoctorDash = () => {
 
   return (
     <SafeAreaView bg="white">
-      <Box alignItems="left">
+      <Box>
         <Input
           bg={useColorModeValue("warmGray.50", "coolGray.800")}
           mt="3"
