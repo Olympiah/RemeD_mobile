@@ -10,10 +10,10 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NativeBaseProvider theme={theme}>
+    <NativeBaseProvider >
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={DoctorDash} />
+          <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
