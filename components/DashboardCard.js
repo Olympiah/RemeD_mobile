@@ -10,25 +10,22 @@ import {
 // specialty={specialty}
 
 const DashboardCard = ({ id, name, location, hospital, specialty }) => {
-  console.log(name, id , specialty)
   return (
-    <Center py={6} px={6} borderRadius={15} shadow={2}>
+    <Center py={6} px={6} borderRadius={15} >
       <Box
         maxW={"445px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
-        boxShadow={"2xl"}
         rounded={"md"}
+        shadow={3}
         p={6}
         overflow={"hidden"}
       >
         <Box
           h={"150px"}
-          bg={"gray.100"}
           mt={-6}
           mx={-6}
           mb={6}
-          pos={"relative"}
         >
           <Image
             source={{
@@ -36,7 +33,6 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
             }}
             alt="Patient's pic"
             size={"full"}
-            // resizeMode={"contain"}
           />
         </Box>
         <Stack>
@@ -47,7 +43,7 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
             fontSize={"sm"}
             letterSpacing={1.1}
           >
-            Dr. {name}
+            {hospital? "Dr.": ""} {name}
           </Text>
           <Heading
             color={useColorModeValue("primary.700", "white")}
@@ -58,7 +54,7 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
             {specialty}
           </Heading>
           <Text color={"gray.500"}>
-            {hospital} - {location}
+            {hospital} {hospital? "-": ""} {location}
           </Text>
         </Stack>
         <Stack mt={4} direction={"row"} justifyContent={"space-between"}>

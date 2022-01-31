@@ -7,27 +7,42 @@ import DashboardCard from "../../components/DashboardCard";
 const data = [
   {
     id: 123,
-    name: "Luke Hemmings",
+    name: "Harry Styles",
+    hospital: "Nairobi Hospital",
     location: "Nairobi",
+    specialty: "orthodontist",
   },
   {
     id: 456,
-    name: "Calum Hood",
+    name: "Liam Payne",
+    hospital: "Aga Khan Hospital",
     location: "Parklands",
+    specialty: "cardiologist",
   },
   {
     id: 789,
-    name: "Ashton Irwin",
+    name: "Zayn Malik",
+    hospital: "Nairobi Women's Hospital",
     location: "Lang'ata",
+    specialty: "dermatologist",
   },
   {
     id: 987,
-    name: "Michael Clifford",
+    name: "Louis Tomlinson",
+    hospital: "Kenyatta Hospital",
     location: "Nairobi",
+    specialty: "haematologist",
+  },
+  {
+    id: 654,
+    name: "Niall Horan",
+    hospital: "Mama Lucy Hospital",
+    location: "Nairobi",
+    specialty: "general surgeon",
   },
 ];
 
-const DoctorDash = () => {
+const PatientDash = () => {
   const [searchedText, setsearchedText] = useState("");
   const [currentData, setcurrentData] = useState(data);
   const [filteredData, setfilteredData] = useState(data);
@@ -36,6 +51,8 @@ const DoctorDash = () => {
     setfilteredData(data);
   }, []);
 
+  console.log(typeof data);
+  // Object.values()
   const SearchFilter = (val) => {
     if (val) {
       const newData = currentData.filter((item) => {
@@ -70,7 +87,7 @@ const DoctorDash = () => {
           bg={useColorModeValue("warmGray.50", "coolGray.800")}
           mt="-4"
           ml="4"
-          placeholder="🔎 Search for Patients"
+          placeholder="🔎 Search for Doctors"
           w="75%"
           maxWidth="300px"
           value={searchedText}
@@ -86,4 +103,4 @@ const DoctorDash = () => {
   );
 };
 
-export default DoctorDash;
+export default PatientDash;
