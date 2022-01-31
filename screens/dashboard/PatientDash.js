@@ -2,7 +2,8 @@ import { Box, Input, useColorModeValue } from "native-base";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DashboardCard from "../../components/DashboardCard";
+import DoctorCard from "../../components/DashCards/DoctorCard";
+// Patient searching for doctors
 
 const data = [
   {
@@ -51,8 +52,6 @@ const PatientDash = () => {
     setfilteredData(data);
   }, []);
 
-  console.log(typeof data);
-  // Object.values()
   const SearchFilter = (val) => {
     if (val) {
       const newData = currentData.filter((item) => {
@@ -70,7 +69,7 @@ const PatientDash = () => {
 
   const SearchData = ({ item }) => {
     return (
-      <DashboardCard
+      <DoctorCard
         id={item.id}
         name={item.name}
         location={item.location}

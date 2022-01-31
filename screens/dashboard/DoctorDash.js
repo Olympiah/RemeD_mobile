@@ -2,7 +2,8 @@ import { Box, Input, useColorModeValue } from "native-base";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DashboardCard from "../../components/DashboardCard";
+import PatientCard from "../../components/DashCards/PatientCard";
+// Doctor viewing patient profiles and cards
 
 const data = [
   {
@@ -53,13 +54,7 @@ const DoctorDash = () => {
 
   const SearchData = ({ item }) => {
     return (
-      <DashboardCard
-        id={item.id}
-        name={item.name}
-        location={item.location}
-        hospital={item.hospital}
-        specialty={item.specialty}
-      />
+      <PatientCard id={item.id} name={item.name} location={item.location} />
     );
   };
 

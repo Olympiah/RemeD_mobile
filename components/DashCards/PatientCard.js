@@ -1,17 +1,25 @@
+import { useNavigation } from "@react-navigation/native";
 import {
-    Box, Button, Center, Heading, Image,
-    Stack, Text, useColorModeValue
+  Box,
+  Button,
+  Center,
+  Image,
+  Stack,
+  Text,
+  useColorModeValue,
+  Pressable,
 } from "native-base";
+import { TouchableOpacity } from "react-native";
 
 // id={id}
 // name={name}
 // location={location}
-// hospital={hospital}
-// specialty={specialty}
 
-const DashboardCard = ({ id, name, location, hospital, specialty }) => {
+const PatientCard = ({ id, name, location }) => {
+  const navigation = useNavigation();
+
   return (
-    <Center py={6} px={6} borderRadius={15} >
+    <Center py={6} px={6} borderRadius={15}>
       <Box
         maxW={"445px"}
         w={"full"}
@@ -21,12 +29,7 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
         p={6}
         overflow={"hidden"}
       >
-        <Box
-          h={"150px"}
-          mt={-6}
-          mx={-6}
-          mb={6}
-        >
+        <Box h={"150px"} mt={-6} mx={-6} mb={6}>
           <Image
             source={{
               uri: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
@@ -43,25 +46,23 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
             fontSize={"sm"}
             letterSpacing={1.1}
           >
-            {hospital? "Dr.": ""} {name}
+            {name}
           </Text>
-          <Heading
-            color={useColorModeValue("primary.700", "white")}
-            fontSize={"xs"}
-            pb={1}
-            textTransform={"uppercase"}
-          >
-            {specialty}
-          </Heading>
-          <Text color={"gray.500"}>
-            {hospital} {hospital? "-": ""} {location}
-          </Text>
+          <Text color={"gray.500"}>{location}</Text>
         </Stack>
         <Stack mt={4} direction={"row"} justifyContent={"space-between"}>
           <Button size="sm" w={"40%"}>
-            Consult
+            Chat
           </Button>
-          <Button size="sm" variant="subtle" w={"40%"}>
+
+          <Button
+            size="sm"
+            variant="subtle"
+            w={"40%"}
+            onPress={() => {
+              navigation.navigate("PatientProfile");
+            }}
+          >
             View Profile
           </Button>
         </Stack>
@@ -70,4 +71,4 @@ const DashboardCard = ({ id, name, location, hospital, specialty }) => {
   );
 };
 
-export default DashboardCard;
+export default PatientCard;
