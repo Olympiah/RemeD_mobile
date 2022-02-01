@@ -7,6 +7,7 @@ import DoctorDash from "./screens/dashboard/DoctorDash";
 import PatientDash from "./screens/dashboard/PatientDash";
 import DoctorProfileScreen from "./screens/Profiles/DoctorProfileScreen";
 import PatientProfileScreen from "./screens/Profiles/PatientProfileScreen";
+import Chat from "./screens/Chat";
 // import { theme } from "./utils/Theme";
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ const App = () => {
           />
           <Stack.Screen name="DoctorDash" component={DoctorDash} />
           <Stack.Screen name="PatientDash" component={PatientDash} />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
