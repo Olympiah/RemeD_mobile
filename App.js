@@ -42,18 +42,18 @@ const App = () => {
       <ContextProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="DoctorProfile" component={DoctorProfileScreen} />
             <Stack.Screen
               name="PatientProfile"
               component={PatientProfileScreen}
             />
             <Stack.Screen name="DoctorDash" component={DoctorDash} />
-            <Stack.Screen name="PatientDash" component={PatientDash} /> */}
+            <Stack.Screen name="PatientDash" component={PatientDash} />
             <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
             <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-            {/* <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
-            <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} /> */}
+            <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
+            <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} />
           </Stack.Navigator>
         </NavigationContainer>
       </ContextProvider>
