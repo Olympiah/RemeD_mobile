@@ -22,7 +22,7 @@ const Register = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <Box pt={height * 0.08} bg={"white"} px={"6"} w={'full'} h={'full'}>
-                <Heading textAlign={"center"} mb={height * 0.02}>Create an Account!</Heading>
+                <Heading textAlign={"center"} style={{fontFamily:'Poppins'}} mb={height * 0.02}>Create an Account!</Heading>
                 <Box mt={height * 0.06} >
                     <Input placeholder={"Your name"} variant={"outline"} mb={height * 0.04} w={'100%'} type={'text'} />
                     <Input placeholder={"Your email"} variant={"outline"} mb={height * 0.04} w={'100%'} type={'email'} />
@@ -75,7 +75,7 @@ const Register = () => {
                     <Button w={'100%'} variant={'solid'} mb={"8"} >
                         Get Started
                     </Button>
-                    <Text textAlign={"center"} mb={4}>Already have an account</Text>
+                    <Text textAlign={"center"} style={{fontFamily:'Poppins'}} mb={4}>Already have an account</Text>
                     <Button variant={"ghost"} colorScheme={'primary'} onPress={() => navigation.navigate('Login')} >Sign in</Button>
                 </Box>
             </Box>

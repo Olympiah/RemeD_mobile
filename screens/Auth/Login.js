@@ -22,7 +22,7 @@ const Login = () => {
     return (
         <Box pt={height * 0.08} bg={"white"} px={"6"} w={'full'} h={'full'} >
             <Center width={'100%'} height={'100%'}>
-                <Heading textAlign={"center"} mb={height * 0.02}>Welcome Back!</Heading>
+                <Heading style={{fontFamily:'Poppins'}} textAlign={"center"} mb={height * 0.02}>Welcome Back!</Heading>
                 <Input placeholder={"Your email"} variant={"outline"} mb={height * 0.04} w={'100%'} type={'email'} />
                 <Input
                     placeholder={"Password"}
@@ -47,10 +47,10 @@ const Login = () => {
                         />
                     }
                 />
-                <Button w={'100%'} variant={'solid'} mb={"8"} >
+                <Button  w={'100%'} variant={'solid'} mb={"8"} >
                     Sign in
                 </Button>
-                <Text mb={4}>Don't have an account</Text>
+                <Text style={{fontFamily:'Poppins'}} mb={4}>Don't have an account</Text>
                 <Button variant={"ghost"} colorScheme={'primary'} onPress={() => navigation.navigate('Register')} >Sign up</Button>
             </Center>
         </Box>
