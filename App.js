@@ -59,7 +59,9 @@ const App = () => {
     <NativeBaseProvider>
       <ContextProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator 
+          // initialRouteName="Notes" 
+          >
             <Stack.Screen
               name='Land'
               component={Land}
