@@ -11,7 +11,7 @@ import ContextProvider from "./context/state";
 import Notes from "./screens/Notes/Notes"
 import AddNote from "./screens/Notes/AddNote"
 import 'react-native-gesture-handler';
-
+import Chat from "./screens/Chat";
 import Landing from './screens/Landing';
 import Signin from './screens/Loginscreens/Signin';
 import Signup from './screens/Loginscreens/Signup';
@@ -77,6 +77,8 @@ const App = () => {
             <Stack.Screen options={{ headerShown: false }} name="PatientDash" component={PatientDash} />
             <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
             <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} />
+            <Stack.Screen options={{ headerShown: false }} name="Chat" component={Chat} />
+              
           </Stack.Navigator>
         </NavigationContainer>
       </ContextProvider>
