@@ -20,6 +20,9 @@ import Signup from './screens/Loginscreens/Signup';
 // import { theme } from "./utils/Theme";
 import useFonts from "./hooks/useFonts"
 import AppLoading from "expo-app-loading"
+import Complaints from './screens/Others/Complaints';
+import Faqs from './screens/Others/Faqs';
+
 
 const Stack = createNativeStackNavigator();
 const Tab= createNativeStackNavigator();
@@ -74,6 +77,8 @@ const App = () => {
             />
             <Stack.Screen name="DoctorDash" component={DoctorDash} />
             <Stack.Screen name="PatientDash" component={PatientDash} />
+            <Stack.Screen name="Complaints" component={Complaints} />
+          <Stack.Screen name="Faqs" component={Faqs} />
             <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
             <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} />
           </Stack.Navigator>
