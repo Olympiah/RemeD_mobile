@@ -64,7 +64,13 @@ const DoctorCard = ({ id, name, location, hospital, specialty }) => {
           </Text>
         </Stack>
         <Stack mt={4} direction={"row"} justifyContent={"space-between"}>
-          <Button size="sm" w={"40%"}>
+          <Button
+            size="sm"
+            w={"40%"}
+            onPress={() => {
+              navigation.navigate("Chat");
+            }}
+          >
             Consult
           </Button>
 

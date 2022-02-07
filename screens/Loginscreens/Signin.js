@@ -48,7 +48,7 @@ const Signin = ({navigation}) => {
    
      return (
        <View style={styles.container}>
-         <StatusBar backgroundColor={'white'} barStyle='light-content'/>
+         <StatusBar backgroundColor={'white'} barStyle='light-content' hidden={true}/>
          <View style={styles.header}>
            <Text style={styles.text_header}>Welcome Back!</Text>
          </View>
