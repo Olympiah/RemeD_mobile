@@ -48,9 +48,9 @@ const App = () => {
   function Land() {
     return(
        <Tab.Navigator>
-           <Tab.Screen name='Landing' component={Landing}/>
-           <Tab.Screen name='Signin' component={Signin}/>
-           <Tab.Screen name='Signup' component={Signup}/>
+           <Tab.Screen options={{ headerShown: false }} name='Landing' component={Landing}/>
+           <Tab.Screen options={{ headerShown: false }} name='Signin' component={Signin}/>
+           <Tab.Screen options={{ headerShown: false }} name='Signup' component={Signup}/>
        </Tab.Navigator>
     );
  }
@@ -65,15 +65,16 @@ const App = () => {
               component={Land}
               options={{headerShown:false}
            }/> 
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen  options={{ headerShown: false }} name="Home" component={HomeScreen} />
 
-            <Stack.Screen name="DoctorProfile" component={DoctorProfileScreen} />
+            <Stack.Screen options={{ headerShown: false }} name="DoctorProfile" component={DoctorProfileScreen} />
             <Stack.Screen
+              options={{ headerShown: false }}
               name="PatientProfile"
               component={PatientProfileScreen}
             />
-            <Stack.Screen name="DoctorDash" component={DoctorDash} />
-            <Stack.Screen name="PatientDash" component={PatientDash} />
+            <Stack.Screen options={{ headerShown: false }} name="DoctorDash" component={DoctorDash} />
+            <Stack.Screen options={{ headerShown: false }} name="PatientDash" component={PatientDash} />
             <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
             <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} />
           </Stack.Navigator>
