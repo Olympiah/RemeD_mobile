@@ -20,6 +20,9 @@ import Signup from './screens/Loginscreens/Signup';
 // import { theme } from "./utils/Theme";
 import useFonts from "./hooks/useFonts"
 import AppLoading from "expo-app-loading"
+import Complaints from './screens/Others/Complaints';
+import Faqs from './screens/Others/Faqs';
+
 
 const Stack = createNativeStackNavigator();
 const Tab= createNativeStackNavigator();
@@ -77,6 +80,8 @@ const App = () => {
             />
             <Stack.Screen options={{ headerShown: false }} name="DoctorDash" component={DoctorDash} />
             <Stack.Screen options={{ headerShown: false }} name="PatientDash" component={PatientDash} />
+            <Stack.Screen name="Complaints" component={Complaints} />
+          <Stack.Screen name="Faqs" component={Faqs} />
             <Stack.Screen options={{ headerShown: false }} name="Notes" component={Notes} />
             <Stack.Screen options={{ headerShown: false }} name="AddNote" component={AddNote} />
             <Stack.Screen options={{ headerShown: false }} name="Chat" component={Chat} />
@@ -89,3 +94,4 @@ const App = () => {
 };
 
 export default App;
+  // "react-native-fs": "^2.18.0",

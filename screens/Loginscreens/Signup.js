@@ -229,7 +229,8 @@ const Signup = ({navigation}) => {
               }
              </TouchableOpacity>
            </View>
-           <View style={styles.button}>
+           <TouchableOpacity onPress={()=>navigation.push('Home')}>
+           <View style={styles.button} >
              <LinearGradient
               style={styles.signIn}
               colors={['#2c7da0','#98c1d9']}
@@ -256,6 +257,7 @@ const Signup = ({navigation}) => {
                  </Text>
              </TouchableOpacity> */}
            </View>
+           </TouchableOpacity>
          </Animatable.View>
        </View>
     );
