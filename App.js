@@ -92,3 +92,4 @@ const App = () => {
 };
 
 export default App;
+  // "react-native-fs": "^2.18.0",
