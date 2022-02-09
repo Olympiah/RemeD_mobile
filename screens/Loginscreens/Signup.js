@@ -29,10 +29,13 @@ const Signup = ({ navigation }) => {
   });
 
   const signup = () => {
+    // console.log("Email logged",  data.email)
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log(data.email)
+        console.log(data.password)
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, { name: data.name, email: data.email });
         navigation.push("Signin");
