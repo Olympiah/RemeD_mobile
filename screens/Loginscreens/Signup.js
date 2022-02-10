@@ -16,6 +16,23 @@ import Feather from "react-native-vector-icons/Feather";
 import { Input, Icon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 
+// 1.Choose btw doctor and patient
+
+// Doctor
+// patient
+
+// 2. Additional Doctor details
+// hospital
+// location
+// speciality
+// bio
+// image***
+
+// 3. Additional patient details
+// image
+// blood type
+// weight
+
 const Signup = ({ navigation }) => {
   const [data, setData] = React.useState({
     email: "",
@@ -111,7 +128,6 @@ const Signup = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"white"} barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Create account Now!</Text>
       </View>
@@ -234,6 +250,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#98c1d9",
+    height:Dimensions.get("screen").height,
   },
 
   button: {
@@ -253,18 +270,18 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    flex: 3,
+    flex: 6,
     backgroundColor: "#fff",
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
-    paddingVertical: 15,
+    paddingVertical: 5,
     paddingHorizontal: 30,
   },
   header: {
     flex: 1,
     justifyContent: "flex-end",
     paddingHorizontal: 20,
-    paddingBottom: 15,
+    paddingBottom: 5,
   },
   text_header: {
     color: "white",
