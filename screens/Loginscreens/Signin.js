@@ -16,7 +16,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
 const Signin = ({ navigation }) => {
- 
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -25,21 +24,24 @@ const Signin = ({ navigation }) => {
   });
 
   const login = () => {
+    console.log("Success1 in sign in message ");
     signInWithEmailAndPassword(auth, data.email, data.password)
-    // Add async function
-      .then((userCredential) => {
+      // Add async function
+
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigation.push("Home");
-        // ...
+        console.log("Success in sign in message " + user);
+        await navigation.push("Home");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("Error in sign in message " + errorMessage + "error code " + errorCode);
+        console.log(
+          "Error in sign in message " + errorMessage + "error code " + errorCode
+        );
       });
   };
-
 
   const textInputChange = (val) => {
     if (val.length != 0) {
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
 
   button: {
     marginTop: 50,
-    width:300,
+    width: 300,
   },
   signIn: {
     width: "100%",
