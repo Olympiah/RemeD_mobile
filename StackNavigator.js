@@ -15,7 +15,7 @@ import Faqs from "./screens/Others/Faqs";
 import Complaints from "./screens/Others/Complaints";
 import useAuth from "./hooks/useAuth";
 import Doctor from './screens/Details/Doctor'
-import Patient  from "./screens/Details/Patient";
+import Patient from "./screens/Details/Patient";
 import DocPat from "./screens/Loginscreens/DocPat";
 
 const Stack = createNativeStackNavigator();
@@ -41,13 +41,27 @@ const StackNavigator = () => {
                     name="Signup"
                     component={Signup}
                 />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Doctor"
+                    component={Doctor}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Patient"
+                    component={Patient}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="DocPat"
+                    component={DocPat}
+                />
             </Tab.Navigator>
         );
     }
 
     return (
         <Stack.Navigator
-        // initialRouteName="Notes"
         >
             {user ? (
                 <Stack.Group>
@@ -94,21 +108,6 @@ const StackNavigator = () => {
                         name="Chat"
                         component={Chat}
                     />
-                     <Stack.Screen
-              options={{ headerShown: false }}
-              name="Doctor"
-              component={Doctor}
-            />
-             <Stack.Screen
-              options={{ headerShown: false }}
-              name="Patient"
-              component={Patient}
-            />
-             <Stack.Screen
-              options={{ headerShown: false }}
-              name="DocPat"
-              component={DocPat}
-            />
                 </Stack.Group>
             ) : (
                 <Stack.Screen
