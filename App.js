@@ -7,6 +7,9 @@ import AppLoading from "expo-app-loading";
 import StackNavigator from "./StackNavigator"
 import { AuthProvider } from "./hooks/useAuth";
 
+const Stack = createNativeStackNavigator();
+const Tab = createNativeStackNavigator();
+
 const App = () => {
     const [loaded, setLoaded] = React.useState(false);
 
@@ -33,6 +36,8 @@ const App = () => {
             </AuthProvider>
         </NativeBaseProvider>
     );
-};
+  }
+
+ 
 
 export default App;

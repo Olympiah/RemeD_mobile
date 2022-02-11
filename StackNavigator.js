@@ -13,7 +13,10 @@ import Signin from "./screens/Loginscreens/Signin";
 import Signup from "./screens/Loginscreens/Signup";
 import Faqs from "./screens/Others/Faqs";
 import Complaints from "./screens/Others/Complaints";
-import useAuth from "./hooks/useAuth"
+import useAuth from "./hooks/useAuth";
+import Doctor from './screens/Details/Doctor'
+import Patient  from "./screens/Details/Patient";
+import DocPat from "./screens/Loginscreens/DocPat";
 
 const Stack = createNativeStackNavigator();
 const Tab = createNativeStackNavigator();
@@ -91,6 +94,21 @@ const StackNavigator = () => {
                         name="Chat"
                         component={Chat}
                     />
+                     <Stack.Screen
+              options={{ headerShown: false }}
+              name="Doctor"
+              component={Doctor}
+            />
+             <Stack.Screen
+              options={{ headerShown: false }}
+              name="Patient"
+              component={Patient}
+            />
+             <Stack.Screen
+              options={{ headerShown: false }}
+              name="DocPat"
+              component={DocPat}
+            />
                 </Stack.Group>
             ) : (
                 <Stack.Screen
