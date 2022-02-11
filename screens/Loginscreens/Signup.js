@@ -46,16 +46,16 @@ const Signup = ({ navigation }) => {
     });
 
     const signup = () => {
-        // console.log("Email logged",  data.email)
+        console.log("Email logged",  data.email)
         createUserWithEmailAndPassword(auth, data.email, data.password)
             .then(async (userCredential) => {
                 // Signed in
-                const user = userCredential.user;
+                // const user = userCredential.user;
                 console.log(data.email)
                 console.log(data.password)
-                const userRef = doc(db, "users", user.uid);
-                await setDoc(userRef, { name: data.name, email: data.email });
-                navigation.push("Signin");
+                // const userRef = doc(db, "users", user.uid);
+                // await setDoc(userRef, { name: data.name, email: data.email });
+                navigation.push("DocPat");
                 // ...
             })
             .catch((error) => {
@@ -132,7 +132,7 @@ const Signup = ({ navigation }) => {
                 <Text style={styles.text_header}>Create account Now!</Text>
             </View>
             <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-                <Text style={styles.text_footer}> Name</Text>
+                {/* <Text style={styles.text_footer}> Name</Text>
                 <View style={styles.action} styles={{ flexDirection: "row" }}>
                     <Input
                         style={styles.text_input}
@@ -148,7 +148,7 @@ const Signup = ({ navigation }) => {
                             <Feather name="check-circle" color="#14213d" size={20} />
                         </Animatable.View>
                     ) : null}
-                </View>
+                </View> */}
                 <Text style={styles.text_footer}> Email</Text>
                 <View style={styles.action} styles={{ flexDirection: "row" }}>
                     <Input
