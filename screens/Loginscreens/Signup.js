@@ -126,106 +126,108 @@ const Signup = ({ navigation }) => {
         });
     };
 
-    // return (
-    //     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-    //         <View style={styles.header}>
-    //             <Text style={styles.text_header}>Create account Now!</Text>
-    //         </View>
-    //         <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-    //             <Text style={styles.text_footer}> Name</Text>
-    //             <View style={styles.action} styles={{ flexDirection: "row" }}>
-    //                 <Input
-    //                     style={styles.text_input}
-    //                     color="#14213d"
-    //                     placeholder="Jason Derulo"
-    //                     onChangeText={(val) => nameInputChange(val)}
-    //                     leftIcon={
-    //                         <Icon type="font-awesome" name="user" size={20} color="#14213d" />
-    //                     }
-    //                 />
-    //                 {data.check_nameInputChange ? (
-    //                     <Animatable.View animation="bounceIn">
-    //                         <Feather name="check-circle" color="#14213d" size={20} />
-    //                     </Animatable.View>
-    //                 ) : null}
-    //             </View>
-    //             <Text style={styles.text_footer}> Email</Text>
-    //             <View style={styles.action} styles={{ flexDirection: "row" }}>
-    //                 <Input
-    //                     style={styles.text_input}
-    //                     autoCapitalize="none"
-    //                     color="#14213d"
-    //                     placeholder="jasonD@you.com"
-    //                     onChangeText={(val) => textInputChange(val)}
-    //                     leftIcon={
-    //                         <Icon type="font-awesome" name="user" size={20} color="#14213d" />
-    //                     }
-    //                 />
-    //                 {data.check_textInputChange ? (
-    //                     <Animatable.View animation="bounceIn">
-    //                         <Feather name="check-circle" color="#14213d" size={20} />
-    //                     </Animatable.View>
-    //                 ) : null}
-    //             </View>
-    //             <Text style={{ marginTop: 5, fontSize: 18, color: "#14213d" }}>
-    //                 Password
-    //             </Text>
-    //             <View style={styles.action}>
-    //                 <Input
-    //                     style={styles.text_input}
-    //                     secureTextEntry={data.secureTextEntry ? true : false}
-    //                     autoCapitalize="none"
-    //                     color="#14213d"
-    //                     placeholder="Your Password"
-    //                     onChangeText={(val) => handlePasswordChange(val)}
-    //                     leftIcon={
-    //                         <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
-    //                     }
-    //                 />
-    //                 <TouchableOpacity onPress={updateSecureTextEntry}>
-    //                     {data.secureTextEntry ? (
-    //                         <Feather name="eye-off" color="#6b705c" size={20} />
-    //                     ) : (
-    //                         <Feather name="eye" color="#6b705c" size={20} />
-    //                     )}
-    //                 </TouchableOpacity>
-    //             </View>
-    //             <Text style={{ marginTop: 5, fontSize: 18, color: "#14213d" }}>
-    //                 Confirm Password
-    //             </Text>
-    //             <View style={styles.action}>
-    //                 <Input
-    //                     style={styles.text_input}
-    //                     secureTextEntry={data.confirm_secureTextEntry ? true : false}
-    //                     autoCapitalize="none"
-    //                     color="#14213d"
-    //                     placeholder="Your Password"
-    //                     onChangeText={(val) => handleConfirmPasswordChange(val)}
-    //                     leftIcon={
-    //                         <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
-    //                     }
-    //                 />
-    //                 <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-    //                     {data.secureTextEntry ? (
-    //                         <Feather name="eye-off" color="#6b705c" size={20} />
-    //                     ) : (
-    //                         <Feather name="eye" color="#6b705c" size={20} />
-    //                     )}
-    //                 </TouchableOpacity>
-    //             </View>
-    //             <View style={styles.button}>
-    //                 <TouchableOpacity onPress={signup}>
-    //                     <LinearGradient
-    //                         style={styles.signIn}
-    //                         colors={["#2c7da0", "#98c1d9"]}
-    //                     >
-    //                         <Text style={styles.textSign}>Sign Up</Text>
-    //                     </LinearGradient>
-    //                 </TouchableOpacity>
-    //             </View>
+    return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.text_header}>Create account Now!</Text>
+            </View>
+            <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+                <Text style={styles.text_footer}> Name</Text>
+                <View style={styles.action} styles={{ flexDirection: "row" }}>
+                    <Input
+                        style={styles.text_input}
+                        color="#14213d"
+                        placeholder="Jason Derulo"
+                        onChangeText={(val) => nameInputChange(val)}
+                        leftIcon={
+                            <Icon type="font-awesome" name="user" size={20} color="#14213d" />
+                        }
+                    />
+                    {data.check_nameInputChange ? (
+                        <Animatable.View animation="bounceIn">
+                            <Feather name="check-circle" color="#14213d" size={20} />
+                        </Animatable.View>
+                    ) : null}
+                </View>
+                <Text style={styles.text_footer}> Email</Text>
+                <View style={styles.action} styles={{ flexDirection: "row" }}>
+                    <Input
+                        style={styles.text_input}
+                        autoCapitalize="none"
+                        color="#14213d"
+                        placeholder="jasonD@you.com"
+                        onChangeText={(val) => textInputChange(val)}
+                        leftIcon={
+                            <Icon type="font-awesome" name="user" size={20} color="#14213d" />
+                        }
+                    />
+                    {data.check_textInputChange ? (
+                        <Animatable.View animation="bounceIn">
+                            <Feather name="check-circle" color="#14213d" size={20} />
+                        </Animatable.View>
+                    ) : null}
+                </View>
+                <Text style={{ marginTop: 5, fontSize: 18, color: "#14213d" }}>
+                    Password
+                </Text>
+                <View style={styles.action}>
+                    <Input
+                        style={styles.text_input}
+                        secureTextEntry={data.secureTextEntry ? true : false}
+                        autoCapitalize="none"
+                        color="#14213d"
+                        placeholder="Your Password"
+                        onChangeText={(val) => handlePasswordChange(val)}
+                        leftIcon={
+                            <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
+                        }
+                    />
+                    <TouchableOpacity onPress={updateSecureTextEntry}>
+                        {data.secureTextEntry ? (
+                            <Feather name="eye-off" color="#6b705c" size={20} />
+                        ) : (
+                            <Feather name="eye" color="#6b705c" size={20} />
+                        )}
+                    </TouchableOpacity>
+                </View>
+                <Text style={{ marginTop: 5, fontSize: 18, color: "#14213d" }}>
+                    Confirm Password
+                </Text>
+                <View style={styles.action}>
+                    <Input
+                        style={styles.text_input}
+                        secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                        autoCapitalize="none"
+                        color="#14213d"
+                        placeholder="Your Password"
+                        onChangeText={(val) => handleConfirmPasswordChange(val)}
+                        leftIcon={
+                            <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
+                        }
+                    />
+                    <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
+                        {data.secureTextEntry ? (
+                            <Feather name="eye-off" color="#6b705c" size={20} />
+                        ) : (
+                            <Feather name="eye" color="#6b705c" size={20} />
+                        )}
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={signup}>
+                        <LinearGradient
+                            style={styles.signIn}
+                            colors={["#2c7da0", "#98c1d9"]}
+                        >
+                            <Text style={styles.textSign}>Sign Up</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                  </View>  
+                </Animatable.View>
+                </KeyboardAvoidingView>
 
 
-    // );
+    );
 };
 
 export default Signup;
