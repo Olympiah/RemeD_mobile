@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-elements';
+import { useNavigation } from "@react-navigation/native"
 
-const DocPat = ({ navigation }) => {
+const DocPat = () => {
+    const navigation = useNavigation()
     return (
         <View style={{
             alignItems: 'center',
             flex: 1,
-            marginTop: 30,
+            // marginTop: 30,
+            justifyContent: "center",
             backgroundColor: 'white',
         }}>
             <Text style={{
@@ -19,7 +22,6 @@ const DocPat = ({ navigation }) => {
                 Choose...
             </Text>
             <TouchableOpacity
-                onPress={navigation.push('Doctor')}
             >
                 <Button
                     title="DOCTOR"
@@ -29,6 +31,7 @@ const DocPat = ({ navigation }) => {
                         size: 15,
                         color: 'white',
                     }}
+                    onPress={() => navigation.push('Doctor')}
                     iconContainerStyle={{ marginRight: 12 }}
                     titleStyle={{ fontWeight: '700' }}
                     buttonStyle={{
@@ -45,10 +48,11 @@ const DocPat = ({ navigation }) => {
                 />
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={navigation.navigate('Patient')}
+            // onPress={() => navigation.push('Patient')}
             >
                 <Button
                     title="PATIENT"
+                    onPress={() => navigation.push('Patient')}
                     // icon={{
                     //   name: 'hospital-user',
                     //   type: 'font-awesome',
