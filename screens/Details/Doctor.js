@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
+import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from "expo-linear-gradient";
 import { doc, setDoc } from "@firebase/firestore"
 import { db } from "../../utils/firebase"
@@ -25,6 +26,8 @@ const Doctor = () => {
     const [speciality, setSpeciality] = useState("");
     const { user } = useAuth()
     const navigation = useNavigation()
+    const [image, setImage]= useState('');
+
 
     const clickSubmit = async () => {
         const data = {
@@ -40,8 +43,36 @@ const Doctor = () => {
         navigation.push("Home")
     }
 
+
+ useEffect (async()=>{
+    if (Platform !== 'web'){
+        const{status}= await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if(status !== 'granted'){
+            alert('Permission denied!')
+        }
+    }
+},[])
+
+const pickPhoto = async ()=>{
+    let result =await ImagePicker.launchImageLibraryAsync({
+        mediaTypes:ImagePicker.MediaTypeOptions.Images,
+        allowsEditing:true,
+        aspect:[4,3],
+        quality:1
+    })
+    console.log(result)
+    if(!result.cancelled){
+        setImage(result.uri)
+    }
+
+    //the code showing the  image
+    // {Image && <Image source={{uri:image}} style={styles.image}/>}
+    
+}
+
+
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View showsVerticalScrollIndicator={false} style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Additional Info!</Text>
                 <View>
@@ -125,7 +156,7 @@ const Doctor = () => {
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
-        </ScrollView>
+        </View>
     )
 }
 
@@ -135,7 +166,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#98c1d9",
-        height: Dimensions.get("screen").height,
+        // height: Dimensions.get("window").height,
     },
     button: {
         marginTop: 16,
@@ -154,12 +185,13 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        flex: 4,
+        flex: 3,
         backgroundColor: "#fff",
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
         paddingVertical: 5,
         paddingHorizontal: 30,
+        // height:"100%"
     },
     header: {
         flex: 1,
