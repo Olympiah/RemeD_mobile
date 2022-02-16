@@ -37,7 +37,6 @@ const Signup = ({ navigation }) => {
     const [data, setData] = React.useState({
         email: "",
         password: "",
-        name: "",
         confirm_password: "",
         check_textInputChange: false,
         check_nameInputChange: false,
@@ -160,6 +159,7 @@ const Signup = ({ navigation }) => {
                         leftIcon={
                             <Icon type="font-awesome" name="user" size={20} color="#14213d" />
                         }
+                        textContentType={"emailAddress"}
                     />
                     {data.check_textInputChange ? (
                         <Animatable.View animation="bounceIn">
@@ -181,6 +181,7 @@ const Signup = ({ navigation }) => {
                         leftIcon={
                             <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
                         }
+                        textContentType={"password"}
                     />
                     <TouchableOpacity onPress={updateSecureTextEntry}>
                         {data.secureTextEntry ? (
@@ -200,6 +201,7 @@ const Signup = ({ navigation }) => {
                         autoCapitalize="none"
                         color="#14213d"
                         placeholder="Your Password"
+                        textContentType={"password"}
                         onChangeText={(val) => handleConfirmPasswordChange(val)}
                         leftIcon={
                             <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
