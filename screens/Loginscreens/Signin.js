@@ -155,6 +155,7 @@ const Signin = () => {
                                 borderColor: "#2c7da0",
                                 borderWidth: 1,
                                 marginTop: 15,
+                                marginLeft:18
                             },
                         ]}
                     >
@@ -191,6 +192,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
+        marginLeft:18
     },
     textSign: {
         color: "white",

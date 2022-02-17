@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
+        marginLeft:18
     },
     textSign: {
         color: "white",
