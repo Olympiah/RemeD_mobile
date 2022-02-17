@@ -13,6 +13,9 @@ import { doc, setDoc } from "@firebase/firestore"
 import { db } from "../../utils/firebase"
 import useAuth from "../../hooks/useAuth"
 import { useNavigation } from "@react-navigation/native"
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
+import { Avatar, Badge, withBadge } from 'react-native-elements';
 
 const Patient = () => {
     const [weight, setWeight] = useState(0);
@@ -41,6 +44,21 @@ const Patient = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Additional Info!</Text>
+                <View>
+                    <Avatar
+                        rounded
+                        source={{
+                            uri: 'https://i.pinimg.com/originals/db/40/43/db40433674a9ea8eee9206a49e59f62b.jpg',
+                        }}
+                        size="large"
+                    />
+                    <Badge
+                        status="primary"
+                        value={<Icon type="feather" name="edit-2" size={12} />}
+                        containerStyle={{ position: 'absolute', bottom: 5, left: 58, }}
+                        badgeStyle={{height:25, width: 25, borderRadius:999, backgroundColor:"#ffddd2"}}
+                    />
+                </View>
             </View>
             <Animatable.View animation="fadeInUpBig" style={styles.footer}>
                 <Text style={styles.text_footer}>Name</Text>
@@ -50,7 +68,7 @@ const Patient = () => {
                         color="#14213d"
                         placeholder="Anna Devley"
                         leftIcon={
-                            <Icon type="font-awesome" name="h-square" size={20} color="#14213d" />
+                            <Icon type="font-awesome" name="user" size={20} color="#14213d" />
                         }
                         onChangeText={val => setName(val)}
                     />
@@ -63,7 +81,8 @@ const Patient = () => {
                         color="#14213d"
                         placeholder="60kgs "
                         leftIcon={
-                            <Icon type="font-awesome" name="h-square" size={20} color="#14213d" />
+                            // <Icon type="FontAwesome5" name="weight" size={20} color="#14213d" />
+                            <FontAwesome5 name="weight" size={20} color="black" />
                         }
                         keyboardType="numeric"
                         onChangeText={setWeight}
@@ -77,7 +96,7 @@ const Patient = () => {
                         color="#14213d"
                         placeholder="Nairobi,Kenya"
                         leftIcon={
-                            <Icon type="font-awesome" name="location-arrow" size={20} color="#14213d" />
+                            <Fontisto name="blood-drop" size={20} color="black" />
                         }
                         onChangeText={val => setBloodtype(val)}
                     />
@@ -130,6 +149,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
+        marginLeft:18
     },
     textSign: {
         color: "white",
@@ -137,7 +157,7 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        flex: 4,
+        flex: 4, //3
         backgroundColor: "#fff",
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
@@ -148,12 +168,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         paddingHorizontal: 20,
-        paddingBottom: 5,
+        paddingBottom: 10,
+        alignItems:'center'
     },
     text_header: {
         color: "white",
         fontWeight: "bold",
         fontSize: 30,
+        
     },
     text_footer: {
         color: "#14213d",
@@ -172,4 +194,10 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: "#14213d",
     },
+    uploadImg: {
+        width: 65,
+        height: 65,
+        borderRadius: 999,
+        marginTop: 10,
+    }
 })
