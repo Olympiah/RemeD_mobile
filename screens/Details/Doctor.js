@@ -44,31 +44,31 @@ const Doctor = () => {
     }
 
 
- useEffect (async()=>{
-    if (Platform !== 'web'){
-        const{status}= await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if(status !== 'granted'){
-            alert('Permission denied!')
-        }
-    }
-},[])
+//  useEffect (async()=>{
+//     if (Platform !== 'web'){
+//         const{status}= await ImagePicker.requestMediaLibraryPermissionsAsync();
+//         if(status !== 'granted'){
+//             alert('Permission denied!')
+//         }
+//     }
+// },[])
 
-const pickPhoto = async ()=>{
-    let result =await ImagePicker.launchImageLibraryAsync({
-        mediaTypes:ImagePicker.MediaTypeOptions.Images,
-        allowsEditing:true,
-        aspect:[4,3],
-        quality:1
-    })
-    console.log(result)
-    if(!result.cancelled){
-        setImage(result.uri)
-    }
+// const pickPhoto = async ()=>{
+//     let result =await ImagePicker.launchImageLibraryAsync({
+//         mediaTypes:ImagePicker.MediaTypeOptions.Images,
+//         allowsEditing:true,
+//         aspect:[4,3],
+//         quality:1
+//     })
+//     console.log(result)
+//     if(!result.cancelled){
+//         setImage(result.uri)
+//     }
 
     //the code showing the  image
     // {Image && <Image source={{uri:image}} style={styles.image}/>}
     
-}
+// }
 
 
     return (
@@ -99,7 +99,7 @@ const pickPhoto = async ()=>{
                         color="#14213d"
                         placeholder="Anna Devley"
                         leftIcon={
-                            <Icon type="font-awesome" name="h-square" size={20} color="#14213d" />
+                            <Icon type="font-awesome" name="user" size={20} color="#14213d" />
                         }
                         onChangeText={val => setName(val)}
                     />
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 16,
-        width: "100%",
+        width: 300,
     },
     signIn: {
         height: 50,
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
+        marginLeft:19
     },
     textSign: {
         color: "white",
@@ -191,7 +192,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         paddingVertical: 5,
         paddingHorizontal: 30,
-        // height:"100%"
     },
     header: {
         flex: 1,
