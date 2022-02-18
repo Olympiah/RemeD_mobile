@@ -1,68 +1,147 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
     Text,
     StyleSheet,
     View,
     TouchableOpacity,
-    Dimensions,
+    KeyboardAvoidingView
 } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
-import { doc, setDoc } from "@firebase/firestore"
-import { db } from "../../utils/firebase"
-import useAuth from "../../hooks/useAuth"
-import { useNavigation } from "@react-navigation/native"
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import { Avatar, Badge, withBadge } from 'react-native-elements';
+import { doc, setDoc, updateDoc } from "@firebase/firestore"
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage"
+import { db, storage, auth } from "../../utils/firebase"
+import { useRoute } from "@react-navigation/core"
+import { Avatar } from "react-native-elements"
+import { IconButton, Icon as NIcon, useToast } from "native-base"
+import { Feather } from "@expo/vector-icons"
+import * as ImagePicker from 'expo-image-picker';
+import validator from "validator";
 
 const Patient = () => {
     const [weight, setWeight] = useState(0);
     const [name, setName] = useState("");
     const [bloodtype, setBloodtype] = useState("");
-    const { user } = useAuth();
-    const navigation = useNavigation();
+    const route = useRoute();
+    const [image, setImage] = useState(null);
+    const [error, setError] = useState(null);
+    const toastRef = useRef();
+    const toast = useToast();
 
+    const { data: { email, password } } = route.params;
+
+    useEffect(() => {
+        if (error) {
+            showMessage(error)
+        }
+    }, [error])
+
+    const showMessage = (errMessage) => {
+        toastRef.current = toast.show({
+            title: errMessage,
+            placement: "top",
+        });
+    }
 
     const clickSubmit = async () => {
-        const userInfo = {
-            name: name,
-            weight: weight,
-            bloodtype: bloodtype,
-            isDoctor: false,
+        if (validator.isEmpty(weight)){
+            setError("Fill the weight field");
+            return false;
+        } else if(validator.isEmpty(bloodtype)){
+            setError("Fill the location field");
+            return false;
+        } else if(validator.isEmpty(name)){
+            setError("Fill the name field");
+            return false;        
+        } else {
+            /**
+             * The function that loads the image for firebase pushing storage
+             */
+             const data = {
+                email: email,
+                name: name,
+                weight: weight,
+                bloodtype: bloodtype,
+                isDoctor: false,
+            }
+    
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    resolve(xhr.response);
+                };
+                xhr.onerror = function () {
+                    reject(new TypeError("Network request failed"));
+                };
+                xhr.responseType = "blob";
+                xhr.open("GET", image, true);
+                xhr.send(null);
+            })
+    
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async userCred => {
+                    const userRef = doc(db, "users", userCred.user.uid);
+                    await setDoc(userRef, data);
+                    const imageRef = ref(storage, `users/${userRef.id}`);
+                    await uploadBytesResumable(imageRef, blob)
+                        .then(async (snapshot) => {
+                            const imageDownloadUrl = await getDownloadURL(imageRef);
+                            await updateDoc(doc(db, "users", userRef.id), {
+                                image: imageDownloadUrl
+                            });
+                        }).catch(err => console.log("upload " + err.message))
+                })
         }
-        console.log(userInfo)
+    }
 
-        const userRef = doc(db, "users", user.uid);
-        await setDoc(userRef, userInfo);
-        navigation.push("Home");
+    const selectImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri)
+        }
     }
 
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Additional Info!</Text>
                 <View>
                     <Avatar
                         rounded
                         source={{
-                            uri: 'https://i.pinimg.com/originals/db/40/43/db40433674a9ea8eee9206a49e59f62b.jpg',
+                            uri: image ? image : 'https://i.pinimg.com/originals/db/40/43/db40433674a9ea8eee9206a49e59f62b.jpg',
                         }}
                         size="large"
                     />
-                    <Badge
-                        status="primary"
-                        value={<Icon type="feather" name="edit-2" size={12} />}
-                        containerStyle={{ position: 'absolute', bottom: 5, left: 58, }}
-                        badgeStyle={{height:25, width: 25, borderRadius:999, backgroundColor:"#ffddd2"}}
+                    <IconButton
+                        colorScheme="teal"
+                        icon={<NIcon as={Feather} name="camera" />}
+                        _icon={{
+                            size: "sm",
+                        }}
+                        onPress={selectImage}
+                        position={"absolute"}
+                        bottom={2}
+                        left={55}
+                        variant={"outline"}
+                        borderRadius="full"
+                        size={"sm"}
                     />
                 </View>
             </View>
             <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-                <Text style={styles.text_footer}>Name</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}>  Name</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
@@ -74,60 +153,44 @@ const Patient = () => {
                     />
 
                 </View>
-                <Text style={styles.text_footer}>  Weight</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}>  Weight</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
                         placeholder="60kgs "
                         leftIcon={
-                            // <Icon type="FontAwesome5" name="weight" size={20} color="#14213d" />
-                            <FontAwesome5 name="weight" size={20} color="black" />
+                            <Icon type="font-awesome-5" name="weight" size={20} color="#14213d" />
                         }
-                        keyboardType="numeric"
                         onChangeText={setWeight}
+                        keyboardType={"numeric"}
                     />
 
                 </View>
-                <Text style={styles.text_footer}> Blood Type</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}> Your Blood Type</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
-                        placeholder="Nairobi,Kenya"
+                        placeholder="B+"
                         leftIcon={
-                            <Fontisto name="blood-drop" size={20} color="black" />
+                            <Icon type="fontisto" name="blood-drop" size={20} color="#14213d" />
                         }
                         onChangeText={val => setBloodtype(val)}
                     />
 
                 </View>
-                {/* <Text style={styles.text_footer}> Image-na fix sahii</Text>
-                <View style={styles.action} >
-                    <Input
-                        style={styles.text_input}
-                        color="#14213d"
-                        placeholder="Cardiologist"
-                        leftIcon={
-                            <Icon type="font-awesome" name="user-md" size={20} color="#14213d" />
-                        }
 
-                    />
-
-                </View> */}
-
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={clickSubmit} >
-                        <LinearGradient
-                            style={styles.signIn}
-                            colors={["#2c7da0", "#98c1d9"]}
-                        >
-                            <Text style={styles.textSign}>Sign Up</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={clickSubmit} >
+                    <LinearGradient
+                        style={styles.signIn}
+                        colors={["#2c7da0", "#98c1d9"]}
+                    >
+                        <Text style={styles.textSign}>Sign Up</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </Animatable.View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -137,19 +200,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#98c1d9",
-        height: Dimensions.get("screen").height,
-    },
-    button: {
-        marginTop: 16,
-        width: 300,
     },
     signIn: {
-        height: 50,
+        height: 40,
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10,
-        marginLeft:18
+        borderRadius: 18,
+        marginTop: 25,
     },
     textSign: {
         color: "white",
@@ -157,19 +215,20 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        flex: 4, //3
+        flex: 3,
         backgroundColor: "#fff",
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
         paddingVertical: 5,
         paddingHorizontal: 30,
+        height: "100%"
     },
     header: {
         flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: "center",
         paddingHorizontal: 20,
-        paddingBottom: 10,
-        alignItems:'center'
+        paddingBottom: 5,
+        alignItems: "center",
     },
     text_header: {
         color: "white",
@@ -182,22 +241,24 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     action: {
-        flexDirection: "row",
-        marginTop: 5,
-        borderBottomWidth: 1,
         borderBottomColor: "#f2f2f2",
-        paddingBottom: 2,
     },
     text_input: {
-        flex: 1,
-        // marginTop: Platform.OS === "ios" ? 0 : -10,
-        paddingLeft: 10,
         color: "#14213d",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        fontSize: 12,
+        width: "100%",
+        paddingHorizontal: 2,
     },
     uploadImg: {
-        width: 65,
-        height: 65,
+        width: 50,
+        height: 50,
         borderRadius: 999,
         marginTop: 10,
+    },
+    input_label: {
+        color: "#14213d",
+        fontSize: 12,
     }
 })

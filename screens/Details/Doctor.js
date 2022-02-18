@@ -1,22 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
-    Platform,
     Text,
     StyleSheet,
     View,
     TouchableOpacity,
-    Dimensions,
-    ScrollView,
+    KeyboardAvoidingView,
 } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
-import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from "expo-linear-gradient";
-import { doc, setDoc } from "@firebase/firestore"
-import { db } from "../../utils/firebase"
-import useAuth from "../../hooks/useAuth"
-import { useNavigation } from "@react-navigation/native"
-import { Avatar, Badge, withBadge } from 'react-native-elements';
+import { doc, setDoc, updateDoc } from "@firebase/firestore"
+import { createUserWithEmailAndPassword } from "@firebase/auth"
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage"
+import { db, storage, auth } from "../../utils/firebase"
+import { useRoute } from "@react-navigation/core"
+import { Avatar } from 'react-native-elements';
+import { IconButton, Icon as NIcon, useToast } from "native-base"
+import { Feather } from "@expo/vector-icons"
+import * as ImagePicker from 'expo-image-picker';
+import validator from "validator";
 
 
 const Doctor = () => {
@@ -24,13 +26,30 @@ const Doctor = () => {
     const [hospital, setHospital] = useState("");
     const [location, setLocation] = useState("");
     const [speciality, setSpeciality] = useState("");
-    const { user } = useAuth()
-    const navigation = useNavigation()
-    const [image, setImage]= useState('');
+    const route = useRoute();
+    const [image, setImage] = useState(null);
+    const [error, setError] = useState(null);
+    const toastRef = useRef();
+    const toast = useToast();
 
+    const { data: { email, password } } = route.params;
+
+    useEffect(() => {
+        if (error) {
+            showMessage(error)
+        }
+    }, [error])
+
+    const showMessage = (errMessage) => {
+        toastRef.current = toast.show({
+            title: errMessage,
+            placement: "top",
+        });
+    }
 
     const clickSubmit = async () => {
         const data = {
+            email: email,
             name: name,
             hospital: hospital,
             location: location,
@@ -38,62 +57,104 @@ const Doctor = () => {
             isDoctor: true,
         }
 
-        const userRef = doc(db, "users", user.uid)
-        await setDoc(userRef, data)
-        navigation.push("Home")
+        if (validator.isEmpty(hospital)){
+            setError("Fill the hospital field");
+            return false;
+        } else if(validator.isEmpty(location)){
+            setError("Fill the location field");
+            return false;
+        } else if(validator.isEmpty(name)){
+            setError("Fill the name field");
+            return false;
+        }
+        else if(validator.isEmpty(speciality)){
+            setError("Fill the location field");
+            return false;
+        } else if (!image){
+            setError("Pick a profile picture")
+            return false;
+        } else {
+            /**
+             * The function that loads the image for firebase pushing storage
+             */
+    
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    resolve(xhr.response);
+                };
+                xhr.onerror = function () {
+                    reject(new TypeError("Network request failed"));
+                };
+                xhr.responseType = "blob";
+                xhr.open("GET", image, true);
+                xhr.send(null);
+            })
+    
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async userCred => {
+                    const userRef = doc(db, "users", userCred.user.uid);
+                    await setDoc(userRef, data);
+                    const imageRef = ref(storage, `users/${userRef.id}`);
+                    await uploadBytesResumable(imageRef, blob)
+                        .then(async (snapshot) => {
+                            const imageDownloadUrl = await getDownloadURL(imageRef);
+                            await updateDoc(doc(db, "users", userRef.id), {
+                                image: imageDownloadUrl
+                            });
+                        }).catch(err => console.log("upload " + err.message))
+                })
+        }
     }
 
 
-//  useEffect (async()=>{
-//     if (Platform !== 'web'){
-//         const{status}= await ImagePicker.requestMediaLibraryPermissionsAsync();
-//         if(status !== 'granted'){
-//             alert('Permission denied!')
-//         }
-//     }
-// },[])
 
-// const pickPhoto = async ()=>{
-//     let result =await ImagePicker.launchImageLibraryAsync({
-//         mediaTypes:ImagePicker.MediaTypeOptions.Images,
-//         allowsEditing:true,
-//         aspect:[4,3],
-//         quality:1
-//     })
-//     console.log(result)
-//     if(!result.cancelled){
-//         setImage(result.uri)
-//     }
+    const selectImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+        });
 
-    //the code showing the  image
-    // {Image && <Image source={{uri:image}} style={styles.image}/>}
-    
-// }
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri)
+        }
+    }
 
 
     return (
-        <View showsVerticalScrollIndicator={false} style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Additional Info!</Text>
                 <View>
                     <Avatar
                         rounded
                         source={{
-                            uri: 'https://i.pinimg.com/originals/db/40/43/db40433674a9ea8eee9206a49e59f62b.jpg',
+                            uri: image ? image : 'https://i.pinimg.com/originals/db/40/43/db40433674a9ea8eee9206a49e59f62b.jpg',
                         }}
                         size="large"
                     />
-                    <Badge
-                        status="primary"
-                        value={<Icon type="feather" name="edit-2" size={12} />}
-                        containerStyle={{ position: 'absolute', bottom: 5, left: 58, }}
-                        badgeStyle={{height:25, width: 25, borderRadius:999, backgroundColor:"#ffddd2"}}
+                    <IconButton
+                        colorScheme="teal"
+                        icon={<NIcon as={Feather} name="camera" />}
+                        _icon={{
+                            size: "sm",
+                        }}
+                        onPress={selectImage}
+                        position={"absolute"}
+                        bottom={2}
+                        left={55}
+                        variant={"outline"}
+                        borderRadius="full"
+                        size={"sm"}
                     />
                 </View>
             </View>
             <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-                <Text style={styles.text_footer}>  Name</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}>  Name</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
@@ -105,8 +166,8 @@ const Doctor = () => {
                     />
 
                 </View>
-                <Text style={styles.text_footer}>  Hospital</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}>  Hospital</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
@@ -118,8 +179,8 @@ const Doctor = () => {
                     />
 
                 </View>
-                <Text style={styles.text_footer}> Location</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}> Location</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
@@ -131,8 +192,8 @@ const Doctor = () => {
                     />
 
                 </View>
-                <Text style={styles.text_footer}> Speciality</Text>
                 <View style={styles.action} >
+                    <Text style={styles.input_label}> Speciality</Text>
                     <Input
                         style={styles.text_input}
                         color="#14213d"
@@ -145,18 +206,16 @@ const Doctor = () => {
 
                 </View>
 
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={clickSubmit} >
-                        <LinearGradient
-                            style={styles.signIn}
-                            colors={["#2c7da0", "#98c1d9"]}
-                        >
-                            <Text style={styles.textSign}>Sign Up</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={clickSubmit} >
+                    <LinearGradient
+                        style={styles.signIn}
+                        colors={["#2c7da0", "#98c1d9"]}
+                    >
+                        <Text style={styles.textSign}>Sign Up</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </Animatable.View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -166,19 +225,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#98c1d9",
-        // height: Dimensions.get("window").height,
-    },
-    button: {
-        marginTop: 16,
-        width: 300,
     },
     signIn: {
-        height: 50,
+        height: 40,
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10,
-        marginLeft:19
+        borderRadius: 18,
+        marginTop: 25,
     },
     textSign: {
         color: "white",
@@ -192,6 +246,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         paddingVertical: 5,
         paddingHorizontal: 30,
+        height: "100%"
     },
     header: {
         flex: 1,
@@ -210,22 +265,24 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     action: {
-        flexDirection: "row",
-        marginTop: 5,
-        borderBottomWidth: 1,
         borderBottomColor: "#f2f2f2",
-        paddingBottom: 2,
     },
     text_input: {
-        flex: 1,
-        // marginTop: Platform.OS === "ios" ? 0 : -10,
-        paddingLeft: 10,
         color: "#14213d",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        fontSize: 12,
+        width: "100%",
+        paddingHorizontal: 2,
     },
     uploadImg: {
-        width: 65,
-        height: 65,
+        width: 50,
+        height: 50,
         borderRadius: 999,
         marginTop: 10,
+    },
+    input_label: {
+        color: "#14213d",
+        fontSize: 12,
     }
 })

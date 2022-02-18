@@ -40,6 +40,21 @@ const StackNavigator = () => {
                     name="Signup"
                     component={Signup}
                 />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Patient"
+                    component={Patient}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="DocPat"
+                    component={DocPat}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Doctor"
+                    component={Doctor}
+                />
             </Tab.Navigator>
         );
     }
@@ -86,21 +101,6 @@ const StackNavigator = () => {
                         options={{ headerShown: false }}
                         name="AddNote"
                         component={AddNote}
-                    />
-                    <Stack.Screen
-                        options={{ headerShown: false }}
-                        name="Patient"
-                        component={Patient}
-                    />
-                    <Stack.Screen
-                        options={{ headerShown: false }}
-                        name="DocPat"
-                        component={DocPat}
-                    />
-                    <Tab.Screen
-                        options={{ headerShown: false }}
-                        name="Doctor"
-                        component={Doctor}
                     />
                 </Stack.Group>
             ) : (
