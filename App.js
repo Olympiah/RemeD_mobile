@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Platform, PermissionsAndroid } from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import "react-native-gesture-handler";
@@ -13,6 +14,29 @@ const App = () => {
     const loadFonts = async () => {
         await useFonts();
     };
+
+    const getPermissions = async () => {
+        if (Platform.OS === 'android') {
+            let granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            ]);
+            if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                granted = await PermissionsAndroid.requestMultiple([
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                ]);
+            }
+        }
+    };
+
+    React.useEffect(() => {
+        getPermissions()
+    }, []);
 
     if (!loaded) {
         return (
@@ -33,8 +57,8 @@ const App = () => {
             </AuthProvider>
         </NativeBaseProvider>
     );
-  }
+}
 
- 
+
 
 export default App;
