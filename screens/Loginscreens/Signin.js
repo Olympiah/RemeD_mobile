@@ -128,7 +128,6 @@ const Signin = () => {
                                 borderColor: "#2c7da0",
                                 borderWidth: 1,
                                 marginTop: 15,
-                                marginLeft:18
                             },
                         ]}
                     >
