@@ -9,7 +9,7 @@ const HomeScreen = ({ navigation }) => {
             <Button title='Doctor Dashboard' onPress={() => navigation.navigate('DoctorDash', { name: 'Doctor' })} />
             <Button color='black' title='Patient Dashboard' onPress={() => navigation.navigate('PatientDash', { name: 'Patient' })} />
             <Button color='dodgerblue' title='Faqs' onPress={() => navigation.navigate('Faqs', { name: 'Faqs' })} />
-            <TouchableOpacity onPress={logout}><Text>Logout</Text></TouchableOpacity>
+            <Button color='black' title='Logout' onPress={logout} />
         </View>
     );
 };

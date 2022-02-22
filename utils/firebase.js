@@ -9,18 +9,18 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDlx_mSK2G_FGXLduPxJjEGv9BzcZTCRQ8",
-    authDomain: "remed-mobile-2.firebaseapp.com",
-    projectId: "remed-mobile-2",
-    storageBucket: "remed-mobile-2.appspot.com",
-    messagingSenderId: "323902630557",
-    appId: "1:323902630557:web:2388358f1ec8df73d78274"
-  };
+    apiKey: "AIzaSyBKoW1yry__OFzpbRc3to7kF3dvNHhj8MA",
+    authDomain: "remd-2b719.firebaseapp.com",
+    projectId: "remd-2b719",
+    storageBucket: "remd-2b719.appspot.com",
+    messagingSenderId: "298037604089",
+    appId: "1:298037604089:web:7e292dcf9c6bfa3580fc28"
+};
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
-const storage = getStorage();
+const storage = getStorage(app);
 const auth = getAuth(app);
 
 export { app, db, storage, auth };

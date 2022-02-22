@@ -7,13 +7,15 @@ import DoctorProfileScreen from "./screens/Profiles/DoctorProfileScreen";
 import PatientProfileScreen from "./screens/Profiles/PatientProfileScreen";
 import Notes from "./screens/Notes/Notes";
 import AddNote from "./screens/Notes/AddNote";
-import Chat from "./screens/Chat";
 import Landing from "./screens/Landing";
 import Signin from "./screens/Loginscreens/Signin";
 import Signup from "./screens/Loginscreens/Signup";
 import Faqs from "./screens/Others/Faqs";
 import Complaints from "./screens/Others/Complaints";
-import useAuth from "./hooks/useAuth"
+import useAuth from "./hooks/useAuth";
+import Doctor from './screens/Details/Doctor'
+import Patient from "./screens/Details/Patient";
+import DocPat from "./screens/Loginscreens/DocPat";
 
 const Stack = createNativeStackNavigator();
 const Tab = createNativeStackNavigator();
@@ -38,13 +40,27 @@ const StackNavigator = () => {
                     name="Signup"
                     component={Signup}
                 />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Patient"
+                    component={Patient}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="DocPat"
+                    component={DocPat}
+                />
+                <Tab.Screen
+                    options={{ headerShown: false }}
+                    name="Doctor"
+                    component={Doctor}
+                />
             </Tab.Navigator>
         );
     }
 
     return (
         <Stack.Navigator
-        // initialRouteName="Notes"
         >
             {user ? (
                 <Stack.Group>
@@ -85,11 +101,6 @@ const StackNavigator = () => {
                         options={{ headerShown: false }}
                         name="AddNote"
                         component={AddNote}
-                    />
-                    <Stack.Screen
-                        options={{ headerShown: false }}
-                        name="Chat"
-                        component={Chat}
                     />
                 </Stack.Group>
             ) : (

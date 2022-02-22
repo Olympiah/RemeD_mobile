@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Platform, PermissionsAndroid } from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import "react-native-gesture-handler";
@@ -13,9 +14,42 @@ const App = () => {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {}, []);
 
-  const loadFonts = async () => {
-    await useFonts();
-  };
+    const loadFonts = async () => {
+        await useFonts();
+    };
+
+    const getPermissions = async () => {
+        if (Platform.OS === 'android') {
+            let granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            ]);
+            if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                granted = await PermissionsAndroid.requestMultiple([
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                ]);
+            }
+        }
+    };
+
+    React.useEffect(() => {
+        getPermissions()
+    }, []);
+
+    if (!loaded) {
+        return (
+            <AppLoading
+                startAsync={loadFonts}
+                onFinish={() => setLoaded(true)}
+                onError={() => { }}
+            />
+        );
+    }
 
   if (!loaded) {
     return (
@@ -26,25 +60,6 @@ const App = () => {
       />
     );
   }
-
-  const initCometChat = () => {
-    const appID = "APP_ID";
-    const region = "REGION";
-    const appSetting = new CometChat.AppSettingsBuilder()
-      .subscribePresenceForAllUsers()
-      .setRegion(region)
-      .build();
-    CometChat.init(appID, appSetting).then(
-      () => {
-        console.log("Initialization completed successfully");
-        // You can now call login function.
-      },
-      (error) => {
-        console.log("Initialization failed with error:", error);
-        // Check the reason for error and take appropriate action.
-      }
-    );
-  };
 
   return (
     <NativeBaseProvider>

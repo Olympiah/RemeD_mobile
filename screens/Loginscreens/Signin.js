@@ -1,144 +1,117 @@
 import {
-    Platform,
     StyleSheet,
-    StatusBar,
     Text,
     View,
     TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
 import { Input, Icon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 import { auth } from "../../utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
 import { useNavigation } from "@react-navigation/native"
+import { useState, useEffect, useRef } from "react";
+import validator from "validator";
+import { useToast, IconButton, Icon as NIcon } from "native-base"
+import { Feather } from "@expo/vector-icons"
 
 const Signin = () => {
     const navigation = useNavigation();
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-        check_textInputChange: false,
-        secureTextEntry: true,
-    });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showHidePass, setShowHidePass] = useState(true);
+    const [error, setError] = useState(null)
+    const toast = useToast();
+    const toastRef = useRef();
 
-    const login = () => {
-        console.log("Success1 in sign in message ");
-        signInWithEmailAndPassword(auth, data.email, data.password)
-            // Add async function
+    const viewPass = () => setShowHidePass(!showHidePass);
 
-            .then(async (userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log("Success in sign in message " + user);
-                await navigation.push("Home");
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(
-                    "Error in sign in message " + errorMessage + "error code " + errorCode
-                );
-            });
-    };
+    useEffect(() => {
+        if (error) {
+            showMessage(error)
+        }
+    }, [error]);
 
-    const textInputChange = (val) => {
-        if (val.length != 0) {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: true,
-            });
+    const showMessage = errMsg => {
+        toastRef.current = toast.show({
+            title: errMsg,
+            placement: "top",
+        });
+    }
+
+    const clickSubmit = () => {
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if (validator.isEmpty(email)) {
+            setError("Email is empty");
+            return false;
+        }
+        else if (!emailRegex.test(email.trim())) {
+            setError("Email address is invalid");
+            return false
+        }
+        else if (validator.isEmpty(password)) {
+            setError("Password is empty")
+            return false
+        } else if (password.length < 6) {
+            setError("Password must be atleast 6 characters");
+            return false
         } else {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: false,
-            });
+            signInWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    navigation.push("Home");
+                })
+                .catch((err) => {
+                    const errorCode = err.code;
+                    const errorMessage = err.message;
+                    console.log(
+                        "Error in sign in message " + errorMessage + "error code " + errorCode
+                    );
+                });
         }
     };
 
-    const handlePasswordChange = (val) => {
-        setData({
-            ...data,
-            password: val,
-        });
-    };
 
-    const updateSecureTextEntry = () => {
-        setData({
-            ...data,
-            secureTextEntry: !data.secureTextEntry,
-        });
-    };
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                backgroundColor={"white"}
-                barStyle="light-content"
-                hidden={true}
-            />
             <View style={styles.header}>
                 <Text style={styles.text_header}>Welcome Back!</Text>
             </View>
             <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-                <Text style={styles.text_footer}> Email</Text>
-                <View style={styles.action} styles={{ flexDirection: "row" }}>
+                <View style={styles.action}>
+                    <Text style={styles.input_label}>Email</Text>
                     <Input
                         style={styles.text_input}
                         autoCapitalize="none"
                         color="#14213d"
-                        placeholder="honey@you.com"
-                        textContentType="emailAddress"
-                        onChangeText={(val) => textInputChange(val)}
+                        placeholder="jasonD@you.com"
+                        onChangeText={val => setEmail(val)}
                         leftIcon={
-                            <Icon type="font-awesome" name="user" size={20} color="#14213d" />
+                            <Icon type="material-community-icons" name="email" size={15} color="#14213d" />
                         }
+                        textContentType={"emailAddress"}
                     />
-                    {data.check_textInputChange ? (
-                        <Animatable.View animation="bounceIn">
-                            <Feather
-                                name="check-circle"
-                                color="#14213d"
-                                size={20}
-                            // style={{ marginTop:Platform.OS === 'ios' ? 0 : -12,}}
-                            />
-                        </Animatable.View>
-                    ) : null}
                 </View>
-                <Text
-                    // style={styles.text_footer}
-                    style={{ marginTop: 30, fontSize: 18, color: "#14213d" }}
-                >
-                    Password
-                </Text>
                 <View style={styles.action}>
+                    <Text style={styles.input_label}>
+                        Password
+                    </Text>
                     <Input
                         style={styles.text_input}
-                        secureTextEntry={data.secureTextEntry ? true : false}
+                        secureTextEntry={showHidePass}
                         autoCapitalize="none"
                         color="#14213d"
                         placeholder="Your Password"
-                        onChangeText={(val) => handlePasswordChange(val)}
+                        onChangeText={(val) => setPassword(val)}
                         leftIcon={
                             <Icon type="font-awesome" name="lock" size={20} color="#14213d" />
                         }
+                        rightIcon={<IconButton onPress={viewPass} colorScheme={"light"} icon={<NIcon as={Feather} name={showHidePass ? "eye-off" : "eye"} size={5} />} />}
                     />
-                    <TouchableOpacity onPress={updateSecureTextEntry}>
-                        {data.secureTextEntry ? (
-                            <Feather name="eye-off" color="#6b705c" size={20} />
-                        ) : (
-                            <Feather name="eye" color="#6b705c" size={20} />
-                        )}
-                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={login}>
+                    <TouchableOpacity onPress={clickSubmit}>
                         <LinearGradient
                             style={styles.signIn}
                             colors={["#2c7da0", "#98c1d9"]}
@@ -182,15 +155,16 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        marginTop: 50,
-        width: 300,
+        marginTop: 20,
+        width: "100%",
     },
     signIn: {
+        height: 40,
         width: "100%",
-        height: 50,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10,
+        borderRadius: 18,
+        marginTop: 25,
     },
     textSign: {
         color: "white",
@@ -221,16 +195,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     action: {
-        flexDirection: "row",
-        marginTop: 10,
-        borderBottomWidth: 1,
         borderBottomColor: "#f2f2f2",
-        paddingBottom: 5,
     },
     text_input: {
-        flex: 1,
-        marginTop: Platform.OS === "ios" ? 0 : -12,
-        paddingLeft: 10,
         color: "#14213d",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        fontSize: 12,
+        width: "100%",
+        paddingHorizontal: 2,
     },
+    input_label: {
+        color: "#14213d",
+        fontSize: 12,
+    }
 });
