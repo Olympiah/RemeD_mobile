@@ -51,7 +51,7 @@ const Patients = () => {
                     <Feather name="search" size={18} />
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Search Patient ..."
+                        placeholder="Search Patients ..."
                     />
                 </View>
                 {/* Patients */}

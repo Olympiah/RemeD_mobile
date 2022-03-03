@@ -20,7 +20,7 @@ import useAuth from "./hooks/useAuth"
 import DoctorProfile from "./screens/Profiles/DoctorProfile"
 import PatientProfile from "./screens/Profiles/PatientProfile"
 import Paypal from './components/Payment/Paypal'
-
+import Maps from "./screens/Maps/maps";
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
@@ -37,6 +37,7 @@ const HomeStack = () => {
             <Stack.Screen name="Notes" options={{ headerShown: false }} component={Notes} />
             <Stack.Screen name="AddNote" options={{ headerShown: false }} component={AddNote} />
             <Stack.Screen name="Paypal" options={{ headerShown: false }} component={Paypal} />
+            <Stack.Screen name="MapScreen" options={{ headerShown: false }} component={Maps} />
         </Stack.Navigator>
     )
 }
