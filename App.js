@@ -1,20 +1,66 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { Platform, PermissionsAndroid, LogBox } from "react-native"
+import { NavigationContainer } from "@react-navigation/native";
+import { NativeBaseProvider } from "native-base";
+import "react-native-gesture-handler";
+import useFonts from "./hooks/useFonts";
+import AppLoading from "expo-app-loading";
+import Navigator from "./Navigator"
+import { AuthProvider } from "./hooks/useAuth";
+LogBox.ignoreAllLogs()
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+const App = () => {
+    const [loaded, setLoaded] = React.useState(false);
+
+    const loadFonts = async () => {
+        await useFonts();
+    };
+
+    const getPermissions = async () => {
+        if (Platform.OS === 'android') {
+            let granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            ]);
+            if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                granted = await PermissionsAndroid.requestMultiple([
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                ]);
+            }
+        }
+    };
+
+    React.useEffect(() => {
+        getPermissions()
+    }, []);
+
+    if (!loaded) {
+        return (
+            <AppLoading
+                startAsync={loadFonts}
+                onFinish={() => setLoaded(true)}
+                onError={() => { }}
+            />
+        );
+    }
+
+    return (
+        <NativeBaseProvider>
+            <AuthProvider>
+                <NavigationContainer>
+                    <Navigator />
+                </NavigationContainer>
+            </AuthProvider>
+        </NativeBaseProvider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
+export default App;
