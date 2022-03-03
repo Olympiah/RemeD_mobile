@@ -19,6 +19,7 @@ import AddNote from "./screens/Notes/AddNote"
 import useAuth from "./hooks/useAuth"
 import DoctorProfile from "./screens/Profiles/DoctorProfile"
 import PatientProfile from "./screens/Profiles/PatientProfile"
+import Paypal from './components/Payment/Paypal'
 
 
 const Stack = createStackNavigator()
@@ -35,6 +36,7 @@ const HomeStack = () => {
             <Stack.Screen name="Patients" options={{ headerShown: false }} component={Patients} />
             <Stack.Screen name="Notes" options={{ headerShown: false }} component={Notes} />
             <Stack.Screen name="AddNote" options={{ headerShown: false }} component={AddNote} />
+            {/* <Stack.Screen name="Paypal" options={{ headerShown: false }} component={Paypal} /> */}
         </Stack.Navigator>
     )
 }
@@ -121,6 +123,7 @@ const AuthStack = () => {
             <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
             <Stack.Screen options={{ headerShown: false }} name="PatientRegister" component={PatientRegister} />
             <Stack.Screen options={{ headerShown: false }} name="DoctorRegister" component={DoctorRegister} />
+            <Stack.Screen name="Paypal" options={{ headerShown: false }} component={Paypal} />
         </Stack.Navigator>
     )
 }

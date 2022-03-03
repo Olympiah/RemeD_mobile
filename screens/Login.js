@@ -202,12 +202,12 @@ const styles = StyleSheet.create({
         color: "#14213d",
         justifyContent: "flex-start",
         alignItems: "center",
-        fontSize: 12,
+        fontSize: 16,
         width: "100%",
         paddingHorizontal: 2,
     },
     input_label: {
         color: "#14213d",
-        fontSize: 12,
+        fontSize: 16,
     }
 });

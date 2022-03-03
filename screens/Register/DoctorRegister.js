@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
         color: "#14213d",
         justifyContent: "flex-start",
         alignItems: "center",
-        fontSize: 12,
+        fontSize: 16,
         width: "100%",
         paddingHorizontal: 2,
     },
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     },
     input_label: {
         color: "#14213d",
-        fontSize: 12,
+        fontSize: 16,
     },
     inputMultiline: {
         width: "100%",

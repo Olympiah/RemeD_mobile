@@ -18,6 +18,7 @@
     "@react-navigation/stack": "^6.1.1",
     "expo": "~44.0.0",
     "expo-app-loading": "~1.3.0",
+    "expo-asset": "^8.4.6",
     "expo-blur": "~11.0.0",
     "expo-document-picker": "~10.1.3",
     "expo-file-system": "~13.1.4",
@@ -42,6 +43,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
+    "react-native-webview": "11.15.0",
+    "rn-expo-paypal-integration": "^1.2.0",
     "stream-chat-expo": "^3.10.2",
     "tailwind-react-native-classnames": "^1.5.1",
     "validator": "^13.7.0"
