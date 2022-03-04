@@ -17,20 +17,14 @@ import {
 import Header from "../../components/Header"
 import { secToDate } from "../../utils/converters"
 import { useRoute, useNavigation } from "@react-navigation/native"
-import { Asset } from 'expo-asset';
 
 
 const DoctorProfile = () => {
     const route = useRoute();
     const navigation = useNavigation()
 
-    const payment = async () => {
-        const asset = Asset.fromModule(require("../../assets/paypal.html"))
-        await asset.downloadAsync()
-        navigation.navigate("Paypal", { file: asset.localUri });
-    }
-
     const { userInfo } = route.params;
+    
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -92,7 +86,7 @@ const DoctorProfile = () => {
                             iconBackgroundColor={"#6d597a"}
                         />
                     </Card>
-                    <TouchableOpacity onPress={payment}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Paypal")}>
                         <LinearGradient
                             style={styles.appBtn}
                             colors={["#2c7da0", "#98c1d9"]}
