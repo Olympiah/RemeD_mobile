@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons"
 import ChatScreen from './components/Chats';
 import ChatRoom from "./components/ChatRoom";
-import Doc from "./components/Doc";
-import Patient from "./components/Patient";
 import Home1 from "./components/Home1";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
