@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 import { onAuthStateChanged, signOut } from "@firebase/auth"
-import { doc, getDoc } from "@firebase/firestore"
-import { auth, db } from "../utils/firebase"
+import { auth } from "../utils/firebase";
+import sm_notes from "../utils/sample_notes"
 
 const AuthContext = createContext({});
 
@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [channel, setChannel] = useState(null);
     const [loadingInitial, setLoadingInitial] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [notes, setNotes] = useState(sm_notes);
 
 
     useEffect(() =>
@@ -40,9 +41,11 @@ export const AuthProvider = ({ children }) => {
             error,
             logout,
             channel,
-            setChannel
+            setChannel,
+            notes,
+            setNotes,
         }),
-        [user, loading, error]
+        [user, loading, error, notes]
     );
 
 
