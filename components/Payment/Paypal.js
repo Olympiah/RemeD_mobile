@@ -38,7 +38,7 @@ const Paypal = () => {
                     // onNavigationStateChange={(event) => this.handleNavigation(event)}
                     javaScriptEnabled={true} 
                     allowFileAccess={true}
-                    domStrogageEnabled={true}/>
+                    />
             </View>
         );
         
