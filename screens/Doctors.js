@@ -26,6 +26,8 @@ import {
 } from "@firebase/firestore";
 import { db } from "../utils/firebase";
 import Loader from "../components/Loader";
+import sample_users from "../utils/sample_users";
+
 
 const Doctors = () => {
   const navigation = useNavigation();
@@ -35,7 +37,7 @@ const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchedText, setsearchedText] = useState("");
-  const [filteredData, setfilteredData] = useState(data);
+  const [filteredData, setfilteredData] = useState(sample_users);
 
 
   const SearchFilter = (val) => {

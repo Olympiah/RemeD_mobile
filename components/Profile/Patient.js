@@ -11,6 +11,7 @@ import {
     MaterialIcons,
     MaterialCommunityIcons,
     Fontisto,
+    FontAwesome5
 } from "@expo/vector-icons";
 import { Button, Icon } from "native-base"
 import Header from "../Header"
@@ -43,7 +44,7 @@ const Patient = ({ data }) => {
                                 Add Note
                             </Button>
                             <Button
-                                leftIcon={<Icon as={MaterialIcons} name="add-circle-outline" size={5} />}
+                                leftIcon={<Icon as={FontAwesome5} name="notes-medical" size={5} />}
                                 onPress={() => navigation.navigate("Notes")}
                                 variant={"outline"}
                                 size={"sm"}

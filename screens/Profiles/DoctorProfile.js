@@ -5,7 +5,9 @@ import {
     ImageBackground,
     Image,
     ScrollView,
+    TouchableOpacity
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient"
 import tw from "tailwind-react-native-classnames";
 import {
     MaterialIcons,
@@ -14,10 +16,11 @@ import {
 } from "@expo/vector-icons";
 import Header from "../../components/Header"
 import { secToDate } from "../../utils/converters"
-import { useRoute } from "@react-navigation/native"
+import { useRoute, useNavigation } from "@react-navigation/native"
 
 const DoctorProfile = () => {
     const route = useRoute();
+    const navigation = useNavigation()
 
     const { userInfo } = route.params;
     return (
@@ -81,7 +84,15 @@ const DoctorProfile = () => {
                             iconBackgroundColor={"#6d597a"}
                         />
                     </Card>
-                    
+                    <TouchableOpacity onPress={() => navigation.navigate("Paypal")}>
+                        <LinearGradient
+                            style={styles.appBtn}
+                            colors={["#2c7da0", "#98c1d9"]}
+                        >
+                            <Text style={{ color: "white", fontWeight: "800", fontFamily: "Poppins" }}>Pay Appointment</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+
                 </ScrollView>
             </View>
         </View>
@@ -107,7 +118,7 @@ const IconText = ({
             >
                 <Icon name={iconName} size={22} color={"white"} />
             </View>
-            <Text style={[tw`ml-5`, { color: textColor, fontSize: textFontSize, fontFamily:"Poppins" }]}>
+            <Text style={[tw`ml-5`, { color: textColor, fontSize: textFontSize, fontFamily: "Poppins" }]}>
                 {text}
             </Text>
         </View>
@@ -157,14 +168,22 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 3,
         fontWeight: "bold",
-        fontFamily:"Poppins"
+        fontFamily: "Poppins"
     },
     text2: {
         fontSize: 12,
         fontWeight: "200",
         color: "#8e9aaf",
-        fontFamily:"Poppins"
-    }
+        fontFamily: "Poppins"
+    },
+    appBtn: {
+        height: 40,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 18,
+        marginVertical: 18,
+    },
 });
 
 export default DoctorProfile;
