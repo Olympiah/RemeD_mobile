@@ -30,7 +30,7 @@ const Patients = () => {
                 setLoading(false)
             }
         ),
-        []
+        [db]
     )
 
     return (
