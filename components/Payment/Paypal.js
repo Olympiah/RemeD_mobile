@@ -19,7 +19,7 @@ const Paypal = () => {
                             {
                                 uri: localUri.includes('ExponentAsset') ?
                                     localUri :
-                                    'file:///android_asset/' + localUri.substr(9),
+                                    'file:///android_asset/' + localUri.replace(9),
                             } :
                             require('./paypal.html')
                     }
@@ -36,7 +36,9 @@ const Paypal = () => {
                     allowUniversalAccessFromFileURLs={true}
                     onMessage={(event) => this.handleMessage(event)}
                     // onNavigationStateChange={(event) => this.handleNavigation(event)}
-                    javaScriptEnabled={true} />
+                    javaScriptEnabled={true} 
+                    allowFileAccess={true}
+                    domStrogageEnabled={true}/>
             </View>
         );
         
