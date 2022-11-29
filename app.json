@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "stream_t2",
-    "slug": "stream_t2",
+    "name": "remedMobile App",
+    "slug": "remedMobile",
+    "owner": "og-project",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo2.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
